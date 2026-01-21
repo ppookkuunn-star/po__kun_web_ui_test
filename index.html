@@ -3,976 +3,787 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of a UI/UX Designer & Frontend Developer based in Tokyo.">
-    <title>Portfolio | Minimal & Professional</title>
+    <title>AI Creator Portfolio | The Digital Liquid</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Reset & Variables -->
     <style>
-        /* ------------------------------------------------------------------
-           1. Design Tokens & Reset
-           ------------------------------------------------------------------ */
         :root {
-            /* Colors */
-            --c-bg: #F9FAFB;           /* 非常に淡いグレー（白より目に優しい） */
-            --c-surface: #FFFFFF;      /* カードやモダルの背景 */
-            --c-text-main: #111827;    /* ほぼ黒 */
-            --c-text-muted: #6B7280;   /* サブテキスト用のグレー */
-            --c-accent: #2563EB;       /* 信頼感のあるロイヤルブルー */
-            --c-border: #E5E7EB;       /* 薄い境界線 */
-            
-            /* Typography */
-            --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            --leading-tight: 1.2;
-            --leading-relaxed: 1.7;
-            --tracking-wide: 0.04em;
-
-            /* Spacing & Layout */
-            --container-width: 1140px;
-            --header-height: 80px;
-            --radius-md: 12px;         /* 控えめな角丸 */
-            --radius-sm: 6px;
-            --space-section: 140px;    /* 大きめのセクション間余白 */
-
-            /* Shadows & Depth */
-            --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-            
-            /* Animation */
-            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+            /* Changed background to Cobalt Blue */
+            --c-bg: #001F5C;
+            --c-text: #e6f1ff;
+            --c-accent: #64ffda;
+            --c-dark-accent: #112240;
+            --font-display: 'Syne', sans-serif;
+            --font-code: 'Space Mono', monospace;
+            --font-jp: 'Noto Sans JP', sans-serif;
+            --easing: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        *, *::before, *::after {
-            box-sizing: border-box;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-            /* 固定ヘッダーの高さ分、スクロール位置をずらす設定 */
-            scroll-padding-top: var(--header-height);
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
         }
 
         body {
-            font-family: var(--font-base);
             background-color: var(--c-bg);
-            color: var(--c-text-main);
-            line-height: var(--leading-relaxed);
-            letter-spacing: var(--tracking-wide);
-            -webkit-font-smoothing: antialiased;
+            color: var(--c-text);
+            /* Updated font family to include Japanese font */
+            font-family: var(--font-jp);
             overflow-x: hidden;
+            width: 100vw;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: color 0.3s ease;
-        }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
 
-        ul {
-            list-style: none;
-        }
-
-        /* ------------------------------------------------------------------
-           2. Utility Classes
-           ------------------------------------------------------------------ */
-        .container {
-            width: 100%;
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .section {
-            padding: var(--space-section) 0;
-        }
-
-        .flex { display: flex; }
-        .grid { display: grid; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .flex-col { flex-direction: column; }
-        
-        /* Typography Utilities */
-        .text-hero {
-            font-size: clamp(3rem, 5vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        .text-h2 {
-            font-size: clamp(1.75rem, 3vw, 2.25rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -0.01em;
-        }
-
-        .text-h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .text-muted {
-            color: var(--c-text-muted);
-            font-size: 0.95rem;
-        }
-
-        .text-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--c-text-muted);
-            font-weight: 600;
-            display: block;
-            margin-bottom: 1rem;
-        }
-
-        /* ------------------------------------------------------------------
-           3. Components
-           ------------------------------------------------------------------ */
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 12px 28px;
-            background-color: var(--c-text-main);
-            color: var(--c-surface);
-            font-weight: 500;
-            border-radius: 50px; /* Fully rounded pill */
-            font-size: 0.95rem;
-            transition: all 0.3s var(--ease-out);
-            border: 1px solid transparent;
-        }
-
-        .btn:hover {
-            background-color: transparent;
-            color: var(--c-text-main);
-            border-color: var(--c-text-main);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--c-text-main);
-            border: 1px solid var(--c-border);
-        }
-        
-        .btn-outline:hover {
-            border-color: var(--c-text-main);
-            background-color: var(--c-surface);
-        }
-
-        /* Tags */
-        .tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            background-color: var(--c-bg);
-            border: 1px solid var(--c-border);
-            color: var(--c-text-muted);
-            margin-right: 6px;
-            margin-bottom: 6px;
-        }
-
-        /* ------------------------------------------------------------------
-           4. Layout Specifics
-           ------------------------------------------------------------------ */
-        /* Header */
-        .header {
+        /* --- WebGL Canvas (Background Fluid) --- */
+        #bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: var(--header-height);
-            z-index: 100;
-            background-color: rgba(249, 250, 251, 0.85); /* Glass effect */
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.03);
-            transition: transform 0.3s ease;
-        }
-
-        .header.hidden {
-            transform: translateY(-100%);
-        }
-
-        .nav-list {
-            display: flex;
-            gap: 40px;
-        }
-
-        .nav-link {
-            font-size: 0.9rem;
-            font-weight: 500;
-            position: relative;
-            color: var(--c-text-muted);
-            padding: 8px 0;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--c-text-main);
-            transition: width 0.3s var(--ease-out);
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--c-text-main);
-        }
-
-        .nav-link.active::after {
-            width: 100%;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo img {
-            height: 24px;
-            width: auto;
-            border-radius: 4px;
-        }
-
-        /* Hero Section */
-        #hero {
-            min-height: 100vh; /* Full viewport height */
-            display: flex;
-            align-items: center;
-            padding-top: var(--header-height);
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero-desc {
-            font-size: 1.25rem;
-            color: var(--c-text-muted);
-            margin: 2rem 0 3rem;
-            max-width: 600px;
-        }
-
-        /* About Section */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: start;
-        }
-
-        .skill-list {
-            margin-top: 2rem;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-        
-        .skill-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            color: var(--c-text-main);
-        }
-
-        .skill-item::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background-color: var(--c-accent);
-            border-radius: 50%;
-        }
-
-        /* Works Section */
-        .works-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 40px;
-            margin-top: 3rem;
-        }
-
-        .work-card {
-            background-color: var(--c-surface);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            border: 1px solid var(--c-border);
-            cursor: pointer;
-            transition: all 0.4s var(--ease-out);
-            position: relative;
-            display: flex;
-            flex-direction: column;
             height: 100%;
+            z-index: -2; /* Furthest back */
+            opacity: 0.6;
+            pointer-events: none;
         }
 
-        .work-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-float);
-            border-color: rgba(37, 99, 235, 0.2);
-        }
-
-        .work-thumb {
-            height: 220px;
-            width: 100%;
-            background-color: #F3F4F6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Image handling for Work Thumbnails */
-        .work-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s var(--ease-out);
-        }
-
-        .work-card:hover .work-thumb img {
-            transform: scale(1.05);
-        }
-        
-        .work-body {
-            padding: 24px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .work-meta {
-            margin-bottom: 12px;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .work-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .work-desc {
-            font-size: 0.9rem;
-            color: var(--c-text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .work-link {
-            margin-top: auto;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--c-accent);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--c-surface);
-            border-top: 1px solid var(--c-border);
-            padding: 80px 0 40px;
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .footer-logo {
-            font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .footer-logo img {
-            height: 36px;
-            width: auto;
-            border-radius: 6px;
-        }
-
-        .footer-heading {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: var(--c-text-muted);
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.1em;
-            font-weight: 600;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: var(--c-text-main);
-            opacity: 0.8;
-        }
-
-        .footer-links a:hover {
-            opacity: 1;
-            color: var(--c-accent);
-        }
-
-        .copyright {
-            padding-top: 40px;
-            border-top: 1px solid var(--c-border);
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--c-text-muted);
-        }
-
-        /* ------------------------------------------------------------------
-           5. Modal (Dialog)
-           ------------------------------------------------------------------ */
-        dialog {
-            border: none;
-            border-radius: var(--radius-md);
-            padding: 0;
-            max-width: 800px;
-            width: 90%;
-            background: var(--c-surface);
-            box-shadow: var(--shadow-float);
-            color: var(--c-text-main);
-        }
-
-        dialog::backdrop {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-        }
-
-        /* Hide scrollbar for modal but allow scroll */
-        dialog::-webkit-scrollbar {
-            width: 8px;
-        }
-        dialog::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        dialog::-webkit-scrollbar-thumb {
-            background-color: rgba(0,0,0,0.1);
-            border-radius: 4px;
-        }
-
-        .modal-header {
-            position: sticky;
+        /* --- WebGL Canvas (Works Distortion) --- */
+        #works-canvas {
+            position: fixed;
             top: 0;
-            background: var(--c-surface);
-            padding: 24px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10; /* Above content for interaction, but we manipulate pointer-events */
+            pointer-events: none; /* Let clicks pass through to links */
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--c-border);
-            z-index: 10;
+            z-index: 100;
+            mix-blend-mode: exclusion;
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
+        .logo { 
+            font-family: var(--font-code);
+            font-weight: 700; 
+            letter-spacing: -0.05em; 
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
+            gap: 0.5rem;
         }
-
-        .modal-close:hover {
-            background: var(--c-bg);
-        }
-
-        .modal-body {
-            padding: 40px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-img-container {
-            width: 100%;
-            height: 350px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 2rem;
-            overflow: hidden;
-            background-color: #F3F4F6;
-        }
-
-        .modal-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-detail-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 40px;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid var(--c-border);
-        }
-
-        .modal-label {
-            font-weight: 600;
+        
+        .menu-items { display: flex; gap: 2rem; }
+        .menu-items a { 
+            font-family: var(--font-code);
+            position: relative; 
+            text-transform: uppercase; 
             font-size: 0.9rem;
-            color: var(--c-text-muted);
-            margin-bottom: 0.5rem;
-            display: block;
+        }
+        .menu-items a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
+            background: var(--c-accent); transition: width 0.4s var(--easing);
+        }
+        .menu-items a:hover::after { width: 100%; }
+
+        /* --- Page Wrapper for Footer Reveal --- */
+        /* This wrapper holds Hero and Works. It slides up to reveal Footer. */
+        .page-wrapper {
+            position: relative;
+            z-index: 2;
+            background-color: var(--c-bg); /* Opaque background to hide footer */
+            margin-bottom: 80vh; /* Placeholder for footer height logic (handled by JS ideally, but CSS approximation here) */
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
         }
 
-        .modal-value {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10vw;
+            position: relative;
+            /* Background is transparent to see the fluid canvas */
+            background: transparent; 
         }
 
-        .results-box {
-            background-color: var(--c-bg);
-            padding: 24px;
-            border-radius: var(--radius-sm);
-            margin-top: 20px;
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 11vw, 10rem);
+            line-height: 0.85;
+            font-weight: 800;
+            text-transform: uppercase;
+            mix-blend-mode: lighten;
         }
 
-        /* ------------------------------------------------------------------
-           6. Animations
-           ------------------------------------------------------------------ */
-        .fade-in {
+        .hero .line { display: block; overflow: hidden; }
+        .hero .line span { display: block; transform: translateY(110%); }
+
+        .hero p {
+            max-width: 600px;
+            margin-top: 3rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+            transform: translateY(20px);
+            font-weight: 400;
+            letter-spacing: 0.05em;
         }
 
-        .fade-in.visible {
+        /* --- Works Section (Distortion) --- */
+        .works {
+            padding: 10vh 10vw 20vh;
+            position: relative;
+            background: var(--c-bg); /* Ensure opacity */
+        }
+
+        .section-title {
+            font-family: var(--font-display); /* Changed back to Syne for English title */
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 4rem;
+            color: var(--c-accent);
+            letter-spacing: 0.1em;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15vh;
+        }
+
+        @media (min-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 5vw;
+            }
+            .gallery-item:nth-child(even) {
+                margin-top: 15vh;
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            width: 100%;
+        }
+
+        .img-wrapper {
+            width: 100%;
+            /* Aspect ratio for the placeholder */
+            aspect-ratio: 4 / 3; 
+            opacity: 0; /* Hidden, shown by WebGL */
+            visibility: hidden; /* We only need the DOM for position reference */
+        }
+        
+        /* Fallback if WebGL fails */
+        .no-webgl .img-wrapper {
             opacity: 1;
-            transform: translateY(0);
+            visibility: visible;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .fade-in {
-                transition: none;
-                opacity: 1;
-                transform: none;
-            }
-            html {
-                scroll-behavior: auto;
-            }
+        .work-info {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
         }
 
-        /* ------------------------------------------------------------------
-           7. Responsive
-           ------------------------------------------------------------------ */
-        @media (max-width: 768px) {
-            :root {
-                --header-height: 60px;
-                --space-section: 80px;
-            }
-
-            .text-hero { font-size: 2.5rem; }
-            
-            .nav-list {
-                display: none; /* Simplification for single file: hidden on mobile */
-            }
-
-            .about-grid, .modal-detail-grid, .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .modal-body { padding: 24px; }
-            .modal-img-container { height: 200px; }
+        .work-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
         }
+
+        .work-tags {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--c-accent);
+        }
+
+        /* --- Footer (Fixed & Revealed) --- */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80vh; /* Match margin-bottom of page-wrapper */
+            z-index: 1; /* Behind page-wrapper */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #001233; /* Darker Cobalt for footer */
+            padding: 4rem 2rem;
+            overflow: hidden;
+        }
+
+        .marquee {
+            position: absolute;
+            top: 5vh;
+            left: 0;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        .cta-container {
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 1;
+        }
+
+        /* Magnetic Button */
+        .magnetic-btn {
+            display: inline-block;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--c-accent);
+            color: var(--c-bg);
+            font-family: var(--font-display);
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .magnetic-btn:hover {
+            background: #fff;
+        }
+
+        .magnetic-area {
+            display: inline-block;
+            padding: 50px; /* Magnetic range */
+        }
+
+        .footer-bottom {
+            position: absolute;
+            bottom: 2rem;
+            width: 100%;
+            padding: 0 4rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            font-family: var(--font-code);
+        }
+
+        .socials a { margin-left: 20px; transition: color 0.3s; }
+        .socials a:hover { color: var(--c-accent); }
+
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header flex items-center">
-        <div class="container flex justify-between items-center">
-            <a href="#hero" class="logo">
-                <img src="logo_icon.png" alt="PO__KUN Icon">
-                PO__KUN
-            </a>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#works" class="nav-link">Works</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+    <!-- WebGL Background -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- WebGL Overlay for Works (Distortion) -->
+    <canvas id="works-canvas"></canvas>
+
+    <nav>
+        <div class="logo">
+            <!-- AI Sparkles Icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+            </svg>
+            PO__KUN’s Profile
         </div>
-    </header>
+        <ul class="menu-items">
+            <li><a href="#about">About</a></li>
+            <li><a href="#works">Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="hero">
-            <div class="container">
-                <div class="hero-content fade-in">
-                    <span class="text-label">UI/UX Designer & Developer</span>
-                    <h1 class="text-hero">
-                        Designing Logic,<br>
-                        Building Emotion.
-                    </h1>
-                    <p class="hero-desc">
-                        ビジネスの課題を論理的に整理し、感性に響く実装で解決する。<br>
-                        東京を拠点に活動するデザイナー・開発者のポートフォリオです。
-                    </p>
-                    <a href="#works" class="btn">View Works</a>
-                </div>
-            </div>
+    <!-- Content that slides over the footer -->
+    <div class="page-wrapper">
+        <section class="hero" id="about">
+            <h1>
+                <span class="line"><span>Generative</span></span>
+                <span class="line"><span>AI</span></span>
+                <span class="line"><span style="color: transparent; -webkit-text-stroke: 1px var(--c-text);">Artist</span></span>
+            </h1>
+            <p>
+                アルゴリズムに、体温を。<br>
+                人とAIの共鳴が生む、次世代のクリエイティブ。
+            </p>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <span class="text-label fade-in">About Me</span>
-                <div class="about-grid">
-                    <div class="fade-in">
-                        <h2 class="text-h2">Functionality meets <br><span style="color: var(--c-text-muted);">Aesthetics.</span></h2>
-                        <p class="text-muted" style="margin-bottom: 2rem;">
-                            デザインとは、単に装飾することではなく、情報の優先順位を整理し、ユーザーを最短距離で目的へ導く設計図であると考えています。
-                        </p>
-                        <p class="text-muted">
-                            3年間の代理店勤務を経てフリーランスへ。大規模なコーポレートサイトの設計から、Reactを用いたWebアプリケーションのUI実装まで、デザインとエンジニアリングの境界線を行き来しながらプロジェクトに貢献します。
-                        </p>
-                        <br>
-                        <a href="#contact" class="btn btn-outline">Download CV</a>
-                    </div>
-                    <div class="fade-in" style="transition-delay: 0.1s;">
-                        <h3 class="text-h3">Core Skills</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">UI Design (Figma)</div>
-                            <div class="skill-item">Design Systems</div>
-                            <div class="skill-item">HTML/CSS (Sass)</div>
-                            <div class="skill-item">JavaScript (ES6+)</div>
-                            <div class="skill-item">React / Next.js</div>
-                            <div class="skill-item">Accessibility (a11y)</div>
-                            <div class="skill-item">Performance Opt.</div>
-                            <div class="skill-item">Git / CI/CD</div>
-                        </div>
+        <section class="works" id="works">
+            <div class="section-title">// SELECTED WORKS</div>
+            <div class="gallery">
+                <!-- Project 1 -->
+                <div class="gallery-item">
+                    <!-- Updated image for Poster Creation (Abstract/Graphic Design vibe) -->
+                    <img src="https://images.unsplash.com/photo-1626785774573-4b7993143d23?q=80&w=800&auto=format&fit=crop" alt="Poster Creation" class="img-wrapper" data-webgl-img>
+                    <div class="work-info">
+                        <div class="work-title">ポスター作製</div>
+                        <div class="work-tags">Gemini</div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Works Section -->
-        <section id="works" class="section" style="background-color: #fff; border-top: 1px solid var(--c-border); border-bottom: 1px solid var(--c-border);">
-            <div class="container">
-                <div class="flex justify-between items-center fade-in">
-                    <div>
-                        <span class="text-label">Selected Works</span>
-                        <h2 class="text-h2">Featured Projects</h2>
+                <!-- Project 2 -->
+                <div class="gallery-item">
+                    <!-- Updated image for Youtube Shorts (Video/Digital/Neon vibe) -->
+                    <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=800&auto=format&fit=crop" alt="Youtube Shorts" class="img-wrapper" data-webgl-img>
+                    <div class="work-info">
+                        <div class="work-title">Youtubeショート動画</div>
+                        <div class="work-tags">Gemini / Flow / Google Vids / Grok</div>
                     </div>
-                    <!-- View All button visible on desktop -->
                 </div>
-
-                <div class="works-grid">
-                    <!-- Work Item 1: FinTech (Modern Building) -->
-                    <article class="work-card fade-in" onclick="openModal('work1')">
-                        <div class="work-thumb">
-                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="FinTech Office Building" loading="lazy">
-                        </div>
-                        <div class="work-body">
-                            <div class="work-meta">
-                                <span class="tag">Corporate</span>
-                                <span class="tag">Design System</span>
-                            </div>
-                            <h3 class="text-h3">FinTech Global Rebrand</h3>
-                            <p class="text-desc text-muted">大手金融機関のグローバルサイトリニューアル。デザインガイドラインの策定とコンポーネント実装を担当。</p>
-                            <span class="work-link">View Details &rarr;</span>
-                        </div>
-                    </article>
-
-                    <!-- Work Item 2: Lifestyle Store (Interior/Furniture) -->
-                    <article class="work-card fade-in" style="transition-delay: 0.1s;" onclick="openModal('work2')">
-                        <div class="work-thumb">
-                            <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=800&q=80" alt="Minimal Interior Furniture" loading="lazy">
-                        </div>
-                        <div class="work-body">
-                            <div class="work-meta">
-                                <span class="tag">E-Commerce</span>
-                                <span class="tag">App Design</span>
-                            </div>
-                            <h3 class="text-h3">Lifestyle Store App</h3>
-                            <p class="text-desc text-muted">インテリアECのネイティブアプリUI設計。購入フローの最適化によりCVRを120%改善。</p>
-                            <span class="work-link">View Details &rarr;</span>
-                        </div>
-                    </article>
-
-                    <!-- Work Item 3: Analytics Tool (Dashboard/Tech) -->
-                    <article class="work-card fade-in" style="transition-delay: 0.2s;" onclick="openModal('work3')">
-                        <div class="work-thumb">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Data Analytics Dashboard" loading="lazy">
-                        </div>
-                        <div class="work-body">
-                            <div class="work-meta">
-                                <span class="tag">SaaS</span>
-                                <span class="tag">Dashboard</span>
-                            </div>
-                            <h3 class="text-h3">Marketing Analytics Tool</h3>
-                            <p class="text-desc text-muted">マーケティング担当者向け管理画面の刷新。複雑なデータを直感的に理解できるUIを構築。</p>
-                            <span class="work-link">View Details &rarr;</span>
-                        </div>
-                    </article>
+                <!-- Project 3 -->
+                <div class="gallery-item">
+                    <!-- Placeholder image for Icon Creation. Replace 'src' with your local file path (e.g., 'logo_icon.png') -->
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Icon Creation" class="img-wrapper" data-webgl-img>
+                    <div class="work-info">
+                        <div class="work-title">アイコン作成</div>
+                        <div class="work-tags">Gemini</div>
+                    </div>
                 </div>
             </div>
         </section>
+    </div>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="container fade-in">
-                <div style="max-width: 600px;">
-                    <span class="text-label">Contact</span>
-                    <h2 class="text-h2">Let's work together.</h2>
-                    <p class="text-muted" style="margin-bottom: 2.5rem;">
-                        プロジェクトのご相談や、ポートフォリオに関するご質問はメールにてお気軽にご連絡ください。<br>
-                        通常2営業日以内に返信いたします。
-                    </p>
-                    <a href="mailto:hello@example.com" class="btn">
-                        hello@example.com
-                        <span style="margin-left: 8px;">&rarr;</span>
-                    </a>
+    <!-- Fixed Footer (Revealed via curtain effect) -->
+    <footer id="contact">
+        <div class="marquee">
+            OPEN FOR COLLABORATION — GENERATIVE ARTS — WEB EXPERIENCES — CREATIVE CODING —
+        </div>
+        
+        <div class="cta-container">
+            <div class="cta-title">LET'S<br>CREATE</div>
+            <div class="magnetic-area">
+                <div class="magnetic-btn">
+                    <span>Email Me</span>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <a href="#" class="footer-logo">
-                        <img src="logo_icon.png" alt="PO__KUN Icon">
-                        PO__KUN
-                    </a>
-                    <p class="text-muted" style="font-size: 0.9rem; max-width: 300px;">
-                        Logical Design, Emotional Impact.<br>
-                        Building digital products with purpose.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="footer-heading">Social</h4>
-                    <ul class="footer-links">
-                        <li><a href="#" target="_blank">X (Twitter)</a></li>
-                        <li><a href="#" target="_blank">LinkedIn</a></li>
-                        <li><a href="#" target="_blank">GitHub</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-heading">Menu</h4>
-                    <ul class="footer-links">
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#works">Works</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2024 PO__KUN Portfolio. All rights reserved.
+        <div class="footer-bottom">
+            <div>© 2024 AI CREATOR.</div>
+            <div class="socials">
+                <a href="#">TWITTER</a>
+                <a href="#">GITHUB</a>
+                <a href="#">LINKEDIN</a>
             </div>
         </div>
     </footer>
 
-    <!-- Modals (Native HTML Dialog) -->
-    
-    <!-- Modal 1: FinTech -->
-    <dialog id="modal-work1">
-        <div class="modal-header">
-            <h3 class="text-h3" style="margin:0;">FinTech Global Rebrand</h3>
-            <button class="modal-close" onclick="closeModal('work1')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="modal-img-container">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80" alt="FinTech Building Detail">
-            </div>
-            <p class="text-muted">
-                創業50年を迎える金融機関のブランディング刷新に伴い、グローバルWebサイトのリニューアルを担当しました。信頼性を損なわずに、デジタル時代に即した先進的なイメージを表現することが求められました。
-            </p>
-            
-            <div class="modal-detail-grid">
-                <div>
-                    <span class="modal-label">Role</span>
-                    <p class="modal-value">Lead UI Designer<br>Frontend Developer</p>
-                    
-                    <span class="modal-label">Tech Stack</span>
-                    <p class="modal-value">Figma, Astro, Tailwind CSS</p>
-                </div>
-                <div>
-                    <span class="modal-label">Challenge & Solution</span>
-                    <p class="modal-value">
-                        旧サイトは情報構造が複雑で、モバイル対応も不十分でした。1,000ページを超えるコンテンツを整理し、アトミックデザインに基づいたコンポーネント設計を導入することで、運用効率とUIの一貫性を劇的に向上させました。
-                    </p>
-                    
-                    <div class="results-box">
-                        <span class="modal-label" style="color: var(--c-accent);">Key Results</span>
-                        <p style="font-weight: 600; font-size: 1.1rem; margin: 0;">
-                            ページ読み込み速度 40% 向上<br>
-                            問い合わせコンバージョン 15% 増加
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </dialog>
-    
-    <!-- Modal 2: Lifestyle App -->
-    <dialog id="modal-work2">
-        <div class="modal-header">
-            <h3 class="text-h3" style="margin:0;">Lifestyle Store App</h3>
-            <button class="modal-close" onclick="closeModal('work2')">✕</button>
-        </div>
-        <div class="modal-body">
-            <div class="modal-img-container">
-                <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80" alt="Interior Detail">
-            </div>
-            <p class="text-muted">
-                ユーザーのライフスタイルに寄り添う、没入感のあるショッピング体験を目指しました。写真の魅力を最大限に引き出すため、UI要素は極力排除し、ジェスチャー主体の操作系を採用しました。
-            </p>
-            <div class="modal-detail-grid">
-                <div>
-                    <span class="modal-label">Role</span>
-                    <p class="modal-value">UI/UX Design<br>Prototyping</p>
-                    <span class="modal-label">Tech Stack</span>
-                    <p class="modal-value">Figma, Swift UI</p>
-                </div>
-                <div>
-                    <span class="modal-label">Challenge & Solution</span>
-                    <p class="modal-value">
-                        商品検索から購入までのステップ数を削減することが課題でした。ユーザーテストを繰り返し、直感的なフィルタリング機能と「あとで買う」リストへのスムーズな動線を設計しました。
-                    </p>
-                </div>
-            </div>
-        </div>
-    </dialog>
-    
-    <!-- Modal 3: Marketing Tool -->
-    <dialog id="modal-work3">
-        <div class="modal-header">
-            <h3 class="text-h3" style="margin:0;">Marketing Analytics Tool</h3>
-            <button class="modal-close" onclick="closeModal('work3')">✕</button>
-        </div>
-        <div class="modal-body">
-             <div class="modal-img-container">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="Analytics Dashboard Detail">
-            </div>
-             <p class="text-muted">
-                 膨大なデータを扱うSaaSプロダクトのUI刷新プロジェクト。データの可視化（Data Visualization）に重点を置き、意思決定のスピードを加速させるダッシュボードを構築しました。
-             </p>
-             <div class="modal-detail-grid">
-                <div>
-                    <span class="modal-label">Role</span>
-                    <p class="modal-value">Product Design<br>React Implementation</p>
-                    <span class="modal-label">Tech Stack</span>
-                    <p class="modal-value">React, D3.js, TypeScript</p>
-                </div>
-                <div>
-                    <span class="modal-label">Challenge & Solution</span>
-                    <p class="modal-value">
-                        専門知識がないユーザーでも直感的に分析結果を理解できるようにするため、カラーパレットのユニバーサルデザイン化と、専門用語のツールチップ解説を徹底しました。
-                    </p>
-                </div>
-            </div>
-        </div>
-    </dialog>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1/bundled/lenis.min.js"></script>
 
     <script>
-        // ------------------------------------------------------------------
-        // Intersection Observer for Fade-in Animations
-        // ------------------------------------------------------------------
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+        // =================================================================
+        // 1. SETUP & UTILS
+        // =================================================================
+        
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical', 
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Adjust footer spacer based on window height
+        const pageWrapper = document.querySelector('.page-wrapper');
+        const footer = document.querySelector('footer');
+        
+        function onResize() {
+            pageWrapper.style.marginBottom = `${footer.offsetHeight}px`;
+        }
+        window.addEventListener('resize', onResize);
+        onResize();
+
+
+        // =================================================================
+        // 2. BACKGROUND FLUID SHADER (System 1)
+        // =================================================================
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgScene = new THREE.Scene();
+        const bgCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const bgRenderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true });
+        
+        bgRenderer.setSize(window.innerWidth, window.innerHeight);
+        bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const bgUniforms = {
+            uTime: { value: 0 },
+            uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+            uMouse: { value: new THREE.Vector2(0.5, 0.5) }
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Run once
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // ------------------------------------------------------------------
-        // Navigation Active State (Scroll Spy)
-        // ------------------------------------------------------------------
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
+        // Standard Simplex Noise Implementation (Fixing the previous error)
+        const bgFrag = `
+            uniform float uTime;
+            uniform vec2 uMouse;
+            varying vec2 vUv;
             
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 150)) { // Offset for header
-                    current = section.getAttribute('id');
-                }
+            // Standard Simplex Noise 2D
+            vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+
+            float snoise(vec2 v){
+                const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                vec2 i  = floor(v + dot(v, C.yy) );
+                vec2 x0 = v - i + dot(i, C.xx);
+                vec2 i1;
+                i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                vec4 x12 = x0.xyxy + C.xxzz;
+                x12.xy -= i1;
+                i = mod(i, 289.0);
+                vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+                vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                m = m*m ;
+                m = m*m ;
+                vec3 x = 2.0 * fract(p * C.www) - 1.0;
+                vec3 h = abs(x) - 0.5;
+                vec3 ox = floor(x + 0.5);
+                vec3 a0 = x - ox;
+                m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+                vec3 g;
+                g.x  = a0.x  * x0.x  + h.x  * x0.y;
+                g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+                return 130.0 * dot(m, g);
+            }
+
+            void main() {
+                vec2 uv = vUv;
+                float time = uTime * 0.1;
+                float noise = snoise(uv * 2.0 + time);
+                
+                // Color config for Cobalt Blue Theme
+                // Base: Deep Cobalt
+                vec3 c1 = vec3(0.0, 0.15, 0.45); 
+                // Highlight: Vivid Cyan-Blue
+                vec3 c2 = vec3(0.0, 0.5, 1.0);
+                
+                vec3 color = mix(c1, c2, smoothstep(0.6, 1.2, noise + 0.5));
+                gl_FragColor = vec4(color * 0.5, 1.0);
+            }
+        `;
+        
+        const bgMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(2, 2),
+            new THREE.ShaderMaterial({
+                uniforms: bgUniforms,
+                vertexShader: `varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+                fragmentShader: bgFrag
+            })
+        );
+        bgScene.add(bgMesh);
+
+
+        // =================================================================
+        // 3. WORKS DISTORTION GALLERY (System 2)
+        // =================================================================
+        const worksCanvas = document.getElementById('works-canvas');
+        const worksScene = new THREE.Scene();
+        // Perspective camera for 3D plane mapping
+        const worksCamera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+        worksCamera.position.z = 600; // Arbitrary start, will sync with FOV
+        
+        const worksRenderer = new THREE.WebGLRenderer({ canvas: worksCanvas, alpha: true, antialias: true });
+        worksRenderer.setSize(window.innerWidth, window.innerHeight);
+        worksRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Calculate correct FOV to match HTML pixels 1:1
+        function updateCameraFOV() {
+            const fov = 2 * Math.atan((window.innerHeight / 2) / 600) * (180 / Math.PI);
+            worksCamera.fov = fov;
+            worksCamera.aspect = window.innerWidth / window.innerHeight;
+            worksCamera.updateProjectionMatrix();
+        }
+        updateCameraFOV();
+
+        // Image Store
+        const imageItems = [];
+        const textureLoader = new THREE.TextureLoader();
+
+        // Shader for Distortion
+        const worksVert = `
+            uniform float uStrength;
+            uniform vec2 uViewportSizes;
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                vec3 pos = position;
+                // Simple vertex wave (optional)
+                // pos.z += sin(uv.y * 10.0) * uStrength * 5.0; 
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `;
+
+        const worksFrag = `
+            uniform sampler2D uTexture;
+            uniform float uHover;
+            uniform float uTime;
+            varying vec2 vUv;
+
+            void main() {
+                vec2 uv = vUv;
+                vec2 center = vec2(0.5); // Center of the ripple
+
+                // Calculate distance from center
+                float dist = distance(uv, center);
+
+                // Ripple Logic
+                // Wave moves outward over time
+                float wave = sin(dist * 25.0 - uTime * 4.0);
+                
+                // Decay: ripple is stronger at center (optional, or uniform strength)
+                // float decay = 1.0; 
+                
+                // Distortion amount controlled by hover state
+                float strength = 0.03 * uHover;
+
+                // Calculate offset direction
+                vec2 offset = normalize(uv - center) * wave * strength;
+                
+                // Apply distortion to UV
+                vec2 newUV = uv + offset;
+
+                // RGB Shift (Chromatic Aberration) following the ripple
+                float r = texture2D(uTexture, newUV + offset * 0.2).r;
+                float g = texture2D(uTexture, newUV).g;
+                float b = texture2D(uTexture, newUV - offset * 0.2).b;
+
+                gl_FragColor = vec4(r, g, b, 1.0);
+            }
+        `;
+
+        // Initialize Images
+        document.querySelectorAll('[data-webgl-img]').forEach((img, index) => {
+            const bounds = img.getBoundingClientRect();
+            
+            const geometry = new THREE.PlaneGeometry(1, 1);
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTexture: { value: textureLoader.load(img.src) },
+                    uHover: { value: 0 },
+                    uTime: { value: 0 },
+                    uPlaneSizes: { value: new THREE.Vector2(bounds.width, bounds.height) }
+                },
+                vertexShader: worksVert,
+                fragmentShader: worksFrag,
             });
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                }
+            const mesh = new THREE.Mesh(geometry, material);
+            worksScene.add(mesh);
+
+            imageItems.push({
+                img: img,
+                mesh: mesh,
+                bounds: bounds,
+                isHovered: false
+            });
+
+            // Hover Events
+            const wrapper = img.parentElement; // img-wrapper
+            wrapper.addEventListener('mouseenter', () => {
+                gsap.to(material.uniforms.uHover, { value: 1, duration: 0.8, ease: "power2.out" });
+            });
+            wrapper.addEventListener('mouseleave', () => {
+                gsap.to(material.uniforms.uHover, { value: 0, duration: 0.6, ease: "power2.out" });
             });
         });
 
-        // ------------------------------------------------------------------
-        // Modal Logic
-        // ------------------------------------------------------------------
-        function openModal(workId) {
-            const dialog = document.getElementById(`modal-${workId}`);
-            if (dialog) {
-                dialog.showModal();
-                // Prevent body scroll behind modal
-                document.body.style.overflow = 'hidden'; 
-            }
+        // Sync Function: Maps Mesh position to DOM position
+        function syncImages() {
+            imageItems.forEach(item => {
+                const bounds = item.img.getBoundingClientRect();
+                
+                // Update scale
+                item.mesh.scale.set(bounds.width, bounds.height, 1);
+
+                // Update position (convert DOM coords to Three.js coords)
+                // Y axis is inverted in 3D space relative to DOM
+                const x = bounds.left - window.innerWidth / 2 + bounds.width / 2;
+                const y = -bounds.top + window.innerHeight / 2 - bounds.height / 2;
+                
+                item.mesh.position.set(x, y, 0);
+
+                // Update time
+                item.mesh.material.uniforms.uTime.value = performance.now() * 0.001;
+            });
         }
 
-        function closeModal(workId) {
-            const dialog = document.getElementById(`modal-${workId}`);
-            if (dialog) {
-                dialog.close();
-                document.body.style.overflow = '';
-            }
-        }
 
-        // Close modal when clicking on backdrop
-        document.querySelectorAll('dialog').forEach(dialog => {
-            dialog.addEventListener('click', (event) => {
-                if (event.target === dialog) {
-                    dialog.close();
-                    document.body.style.overflow = '';
+        // =================================================================
+        // 4. FOOTER INTERACTIONS (Magnetic)
+        // =================================================================
+        const magArea = document.querySelector('.magnetic-area');
+        const magBtn = document.querySelector('.magnetic-btn');
+        
+        magArea.addEventListener('mousemove', (e) => {
+            const rect = magArea.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            // Magnetic Pull
+            gsap.to(magBtn, {
+                x: x * 0.5,
+                y: y * 0.5,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+        });
+
+        magArea.addEventListener('mouseleave', () => {
+            gsap.to(magBtn, {
+                x: 0,
+                y: 0,
+                duration: 1,
+                ease: "elastic.out(1, 0.3)"
+            });
+        });
+
+        // Marquee Animation
+        gsap.to(".marquee", {
+            xPercent: -50,
+            repeat: -1,
+            duration: 20,
+            ease: "linear"
+        });
+
+
+        // =================================================================
+        // 5. INTRO ANIMATION
+        // =================================================================
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            tl.to(".hero .line span", { 
+                y: "0%", 
+                duration: 1.2, 
+                stagger: 0.1, 
+                ease: "power4.out" 
+            })
+            .to(".hero p", { opacity: 1, y: 0, duration: 1 }, "-=0.8");
+        });
+
+
+        // =================================================================
+        // 6. MAIN LOOP & RESIZE
+        // =================================================================
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const time = clock.getElapsedTime();
+
+            // 1. Update Background Shader
+            bgUniforms.uTime.value = time;
+            bgRenderer.render(bgScene, bgCamera);
+
+            // 2. Update Works Distortion (Sync positions)
+            syncImages();
+            worksRenderer.render(worksScene, worksCamera);
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Mouse Move for Background
+        window.addEventListener('mousemove', (e) => {
+            bgUniforms.uMouse.value.x = e.clientX / window.innerWidth;
+            bgUniforms.uMouse.value.y = 1.0 - e.clientY / window.innerHeight;
+        });
+
+        // Resize Handling
+        window.addEventListener('resize', () => {
+            // Update Background
+            bgRenderer.setSize(window.innerWidth, window.innerHeight);
+            bgUniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+            
+            // Update Works
+            worksRenderer.setSize(window.innerWidth, window.innerHeight);
+            updateCameraFOV();
+            
+            onResize(); // Footer logic
+        });
+
+        // =================================================================
+        // 7. NAVIGATION SCROLL (Added)
+        // =================================================================
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                // Prevent default anchor click behavior
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                
+                if (targetId === '#contact') {
+                    // For contact, scroll to the very bottom to reveal the fixed footer
+                    // We scroll to the height of the page wrapper to fully lift it up
+                    lenis.scrollTo(document.body.scrollHeight);
+                } else {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        lenis.scrollTo(targetElement);
+                    }
                 }
             });
         });
